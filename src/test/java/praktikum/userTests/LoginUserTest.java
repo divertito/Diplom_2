@@ -29,7 +29,7 @@ public class LoginUserTest {
     @After
     public void tearDown() {
         if (accessToken != null) {
-            userClient.delete(UserCredentials.from(user));
+            userClient.delete(UserCredentials.from(user), accessToken);
         }
     }
 

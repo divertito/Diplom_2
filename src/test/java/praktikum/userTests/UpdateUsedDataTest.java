@@ -20,6 +20,7 @@ public class UpdateUsedDataTest {
 
     private User user;
     private UserClient userClient;
+    private String accessToken;
 
     @Before
     public void setUp() {
@@ -30,7 +31,10 @@ public class UpdateUsedDataTest {
 
     @After
     public void tearDown() {
-        userClient.delete(UserCredentials.from(user));
+        accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
+        if (accessToken != null) {
+            userClient.delete(UserCredentials.from(user), accessToken);
+        }
     }
 
     //    Изменение данных пользователя с авторизацией,
@@ -51,7 +55,7 @@ public class UpdateUsedDataTest {
     }
 
     @Test
-    @DisplayName("Updating data of the logged user")
+    @DisplayName("Updating data of the not-logged user")
     public void unauthorizedUserCantBeUpdated() {
         user.setPassword("123");
         user.setEmail(RandomStringUtils.randomAlphanumeric(10) + "@qwerty.com");

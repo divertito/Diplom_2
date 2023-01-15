@@ -24,11 +24,12 @@ public class CreateUserWithIncorrectCredentialsTest {
         user = UserGenerator.getRandomUser();
         userClient = new UserClient();
         userClient.create(user);
+        accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
     }
 
     @After
     public void tearDown() {
-        userClient.delete(UserCredentials.from(user));
+        userClient.delete(UserCredentials.from(user), accessToken);
     }
 
     //создать пользователя, который уже зарегистрирован

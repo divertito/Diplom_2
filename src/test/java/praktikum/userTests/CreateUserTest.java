@@ -25,7 +25,7 @@ public class CreateUserTest {
 
     @After
     public void tearDown() {
-        userClient.delete(UserCredentials.from(user));
+        userClient.delete(UserCredentials.from(user), userClient.login(UserCredentials.from(user)).extract().path("accessToken"));
     }
 
     //    создать уникального пользователя

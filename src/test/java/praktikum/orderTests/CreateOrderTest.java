@@ -22,6 +22,7 @@ public class CreateOrderTest {
     private UserClient userClient = new UserClient();
     private Order order;
     private OrderClient orderClient;
+    String accessToken;
 
     @Before
     public void setUp() {
@@ -29,21 +30,21 @@ public class CreateOrderTest {
         userClient.create(user);
         order = OrderGenerator.getRandomOrder();
         orderClient = new OrderClient();
+        accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
     }
 
     @After
     public void tearDown() {
-        userClient.delete(UserCredentials.from(user));
+        userClient.delete(UserCredentials.from(user), accessToken);
     }
 
-//    Создание заказа с авторизацией с ингредиентами
+    //    Создание заказа с авторизацией с ингредиентами
 //    Создание заказа без авторизации
 //    Создание заказа с авторизацией без ингредиентов
 //    Создание заказа с неверным хешем ингредиентов
     @Test
     @DisplayName("Creating new order with authorized user")
-    public void authorizedUserOrderCantBeCreated() {
-        String accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
+    public void authorizedUserOrderCanBeCreated() {
         ValidatableResponse response = orderClient.createOrder(order, accessToken);
 
         int statusCode = response.extract().statusCode();
@@ -66,7 +67,6 @@ public class CreateOrderTest {
     @DisplayName("Creating new order with authorized user <without ingredients>")
     public void orderWithoutIngredientsCantBeCreated() {
         order.setIngredients(null);
-        String accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
 
         ValidatableResponse response = orderClient.createOrder(order, accessToken);
 
@@ -81,7 +81,6 @@ public class CreateOrderTest {
     @DisplayName("Creating new order with authorized user <with broken hash of ingredients>")
     public void orderWithBrokenHashIngredientsCantBeCreated() {
         order.setIngredients(new String[]{"123"});
-        String accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
         ValidatableResponse response = orderClient.createOrder(order, accessToken);
 
         int statusCode = response.extract().statusCode();

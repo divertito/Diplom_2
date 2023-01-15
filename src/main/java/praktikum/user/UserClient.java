@@ -35,8 +35,9 @@ public class UserClient extends Config {
     }
 
     @Step("Delete user {user}")
-    public ValidatableResponse delete(UserCredentials credentials) {
+    public ValidatableResponse delete(UserCredentials credentials, String accessToken) {
         return getBaseSpec()
+                .header("Authorization", accessToken)
                 .body(credentials)
                 .when()
                 .delete(getUserAuthPath() + "/user")

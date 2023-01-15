@@ -20,6 +20,7 @@ public class GetOrdersTest {
     private OrderClient orderClient;
     private User user;
     private UserClient userClient;
+    String accessToken;
 
     @Before
     public void setUp() {
@@ -27,14 +28,15 @@ public class GetOrdersTest {
         userClient = new UserClient();
         userClient.create(user);
         orderClient = new OrderClient();
+        accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
     }
 
     @After
     public void tearDown() {
-        userClient.delete(UserCredentials.from(user));
+        userClient.delete(UserCredentials.from(user), accessToken);
     }
 
-//    Получение всех заказов
+    //    Получение всех заказов
 //    Получение заказов авторизованного пользователя
 //    Получение заказов неавторизованного пользователя
     @Test
@@ -49,7 +51,6 @@ public class GetOrdersTest {
     @Test
     @DisplayName("Get orders of authorized user")
     public void getAuthorizedUserOrders() {
-        String accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
         ValidatableResponse response = orderClient.getUserOrders(accessToken);
 
         int statusCode = response.extract().statusCode();

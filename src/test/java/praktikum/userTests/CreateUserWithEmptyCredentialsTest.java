@@ -22,12 +22,13 @@ public class CreateUserWithEmptyCredentialsTest {
     public void setUp() {
         user = UserGenerator.getRandomUser();
         userClient = new UserClient();
+        accessToken = userClient.login(UserCredentials.from(user)).extract().path("accessToken");
     }
 
     @After
     public void tearDown() {
         if (accessToken != null) {
-            userClient.delete(UserCredentials.from(user));
+            userClient.delete(UserCredentials.from(user), accessToken);
         }
     }
 
