@@ -1,0 +1,7 @@
+praktikum/orderTests/CreateOrderTest.class
+praktikum/userTests/UpdateUsedDataTest.class
+praktikum/userTests/CreateUserWithEmptyCredentialsTest.class
+praktikum/userTests/CreateUserWithIncorrectCredentialsTest.class
+praktikum/userTests/LoginUserTest.class
+praktikum/orderTests/GetOrdersTest.class
+praktikum/userTests/CreateUserTest.class

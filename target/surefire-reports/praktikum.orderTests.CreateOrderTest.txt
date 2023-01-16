@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: praktikum.orderTests.CreateOrderTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 13.336 s <<< FAILURE! - in praktikum.orderTests.CreateOrderTest
+unAuthorizedUserOrderCantBeCreated(praktikum.orderTests.CreateOrderTest)  Time elapsed: 1.895 s  <<< FAILURE!
+java.lang.AssertionError: Status is incorrect expected:<401> but was:<200>
+	at praktikum.orderTests.CreateOrderTest.unAuthorizedUserOrderCantBeCreated(CreateOrderTest.java:62)
+
